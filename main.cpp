@@ -1,12 +1,11 @@
 //
-// Created by read on 2021/10/7.
+// Created by youni on 22-6-14.
 //
-#include "Server.h"
+#include <iostream>
 
-
-using namespace std;
-
-int main(){
-    Server server("my_server",InetAddress(8888));
-    server.run();
+int main(int argc, char** argv){
+  std::cout << argc << std::endl;
+  for (int i = 0; i < argc; i++){
+    std::cout << "%%->" << argv[i];
+  }
 }
