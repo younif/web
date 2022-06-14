@@ -7,6 +7,13 @@
 
 class TcpServer {
 
+  explicit TcpServer(int port);
+
+  void setup_listening_socket();
+
+ private:
+  int listener_;
+  int port_;
 };
 
 #endif //WEBSERVER_SRC_TCPSERVER_H_

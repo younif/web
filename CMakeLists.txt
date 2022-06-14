@@ -8,4 +8,8 @@ include_directories(src)
 
 add_executable(WebServer main.cpp)
 
+
 target_link_libraries(WebServer server stdc++fs)
+
+add_executable(test test.cpp)
+target_link_libraries(test uring)
