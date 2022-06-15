@@ -1,12 +1,10 @@
 set(SRC
-        HttpServer.cpp
-        HttpServer.h
-        TcpServer.cpp
-        TcpServer.h
-        EventLoop.cpp
-        EventLoop.h
-        Common.cpp
-        Common.h
-        )
+        main.cpp
+        Server.cpp
+        InetAddress.cpp
+        Channel.cpp
+        Connection.cpp
+        HttpData.cpp)
 
-add_library(server ${SRC})
+add_executable(web ${SRC})
+target_link_libraries(web stdc++fs)
