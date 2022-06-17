@@ -1,3 +1,5 @@
+configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/config.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/config.h" )
+
 set(SRC
         main.cpp
         Server.cpp
@@ -8,3 +10,5 @@ set(SRC
 
 add_executable(web ${SRC})
 target_link_libraries(web stdc++fs)
+
+add_subdirectory(test)

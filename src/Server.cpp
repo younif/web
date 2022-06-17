@@ -36,7 +36,7 @@ Server::Server(string name, InetAddress localAddr) :
     it.it_value.tv_sec = 1;
     timerfd_settime(timer_fd_, 0, &it, nullptr); //处理到期链接
 
-    LOG << "Server_name:" << name_ << "  IpPort:" << local_address_.toIpPort();
+    //LOG << "Server_name:" << name_ << "  IpPort:" << local_address_.toIpPort();
 }
 
 [[noreturn]] void Server::run() {
@@ -83,7 +83,7 @@ void Server::on_time() {
     ::read(timer_fd_, &nums, sizeof(nums));
     timer_wheel_index_ = (timer_wheel_index_ + 1) % timer_wheel_.size();
     connection_nums -= timer_wheel_[timer_wheel_index_].size();
-    LOG << "Connection on time nums:" << connection_nums;
+    //LOG << "Connection on time nums:" << connection_nums;
     timer_wheel_[timer_wheel_index_] = list<unique_ptr<Connection>>();
 }
 

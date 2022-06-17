@@ -13,7 +13,7 @@
 #include "InetAddress.h"
 #include "Channel.h"
 #include "Connection.h"
-#include "config.h"
+
 
 using namespace std;
 
