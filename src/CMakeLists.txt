@@ -6,7 +6,9 @@ set(SRC
         InetAddress.cpp
         Channel.cpp
         Connection.cpp
-        HttpData.cpp)
+        HttpData.cpp
+        Socket.cpp
+        EventLoop.cpp)
 
 add_executable(web ${SRC})
 target_link_libraries(web stdc++fs)

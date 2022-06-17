@@ -25,6 +25,7 @@ const int init_time_wheel_size = 10;
 class Server {
 public:
     Server(string name, InetAddress localAddr);
+    Server(string name, int port, string root, int threads, string log_path);
 
     [[noreturn]] void run();
 
@@ -34,7 +35,7 @@ private:
     int idle_fd_;
     list<unique_ptr<Connection>>::size_type connection_nums;
 
-    //socket
+    //Socket
     InetAddress local_address_;
     const int epoll_fd_;
     int listen_fd_;

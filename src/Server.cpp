@@ -12,7 +12,7 @@ Server::Server(string name, InetAddress localAddr) :
         local_address_(localAddr),
         epoll_fd_(epoll_create1(EPOLL_CLOEXEC)),
         epoll_event_list_(init_epoll_list_size),
-        listen_fd_(::socket(local_address_.addr()->sa_family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, 0)),
+        listen_fd_(0),
         listen_channel_(epoll_fd_, listen_fd_, "listen_channel"),
         timer_fd_(::timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC)),
         timer_channel_(epoll_fd_, timer_fd_, "timer_channel"),
@@ -20,13 +20,7 @@ Server::Server(string name, InetAddress localAddr) :
         timer_wheel_index_(0),
         idle_fd_(open("/dev/null", 0)),
         connection_nums(0) {
-    //设置复用端口
-    int reuse = 1;
-    setsockopt(listen_fd_, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse));
-    //设置监听套接字
-    if (listen_fd_ == 0) { LOG << "couldn't creat socket"; }
-    if (bind(listen_fd_, local_address_.addr(), *local_address_.size())) { LOG << "bind error"; }
-    if (listen(listen_fd_, SOMAXCONN)) { LOG << "listen error"; }
+
     //管理模块间的连接
     listen_channel_.setReadCallback([this] { this->new_connection(); });
     timer_channel_.setReadCallback([this] { this->on_time(); });
@@ -37,6 +31,11 @@ Server::Server(string name, InetAddress localAddr) :
     timerfd_settime(timer_fd_, 0, &it, nullptr); //处理到期链接
 
     //LOG << "Server_name:" << name_ << "  IpPort:" << local_address_.toIpPort();
+}
+
+Server::Server(string name, int port, string root, int threads, string log_path) {
+
+
 }
 
 [[noreturn]] void Server::run() {
@@ -86,4 +85,6 @@ void Server::on_time() {
     //LOG << "Connection on time nums:" << connection_nums;
     timer_wheel_[timer_wheel_index_] = list<unique_ptr<Connection>>();
 }
+
+
 
