@@ -7,7 +7,7 @@
 
 
 void Channel::handleEvent(uint32_t events) {
-    if (events & (EPOLLHUP |EPOLLRDHUP| EPOLLERR)) {
+    if (events & (EPOLLHUP | EPOLLRDHUP | EPOLLERR)) {
         //LOG << name_ << " closeCallback_()";
         if (close_callback_) close_callback_();
     }

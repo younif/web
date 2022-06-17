@@ -14,10 +14,13 @@ public:
     explicit InetAddress(uint16_t port = 0, const std::string &ip = std::string());
 
     sockaddr *addr() { return reinterpret_cast<sockaddr *>(&addr_); }
+
     socklen_t *size() { return &size_; }
 
     int toPort() const;
+
     std::string toIp() const;
+
     std::string toIpPort() const;
 
 private:

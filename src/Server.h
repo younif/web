@@ -25,7 +25,9 @@ const int init_time_wheel_size = 10;
 class Server {
 public:
     Server(string name, InetAddress localAddr);
+
     [[noreturn]] void run();
+
 private:
     const string name_;
 
@@ -47,6 +49,7 @@ private:
     vector<epoll_event> epoll_event_list_;
 
     void new_connection();
+
     void on_time();
 };
 

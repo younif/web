@@ -11,15 +11,18 @@ using namespace std;
 
 class Logger {
 public:
-    Logger(string file, int line):file_(std::move(file)),line_(line){
+    Logger(string file, int line) : file_(std::move(file)), line_(line) {
 
     }
-    ostream* stream(){
+
+    ostream *stream() {
         return &cout;
     }
-    ~Logger(){
-        cout << " - " << file_ << ":" << line_ << endl ;
+
+    ~Logger() {
+        cout << " - " << file_ << ":" << line_ << endl;
     }
+
 private:
     string file_;
     int line_;

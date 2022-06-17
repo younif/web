@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int main(){
-    Server server("my_server",InetAddress(8888));
+int main() {
+    Server server("my_server", InetAddress(8888));
     server.run();
 }

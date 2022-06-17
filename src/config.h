@@ -13,6 +13,4 @@ using namespace std;
 const string URL_PATH = "../html";
 
 
-
-
 #endif //WEB_CONFIG_H

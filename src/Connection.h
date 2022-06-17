@@ -12,15 +12,20 @@
 
 class Connection {
 public:
-    Connection(int fd,int epoll_fd);
+    Connection(int fd, int epoll_fd);
+
     ~Connection();
+
     void handleRead();
+
     void handleWrite();
+
     void handleClose();
+
 private:
     int fd_;
     InetAddress peerAddr_;
-    Channel* channel_;
+    Channel *channel_;
 
     string rcv_buf_;
     string::size_type rcv_index_;

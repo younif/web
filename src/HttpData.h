@@ -13,12 +13,18 @@ using namespace std;
 
 class HttpData {
 public:
-    explicit HttpData(const string& data);
+    explicit HttpData(const string &data);
+
     string URL();
+
     string responseHead();
-    string Host(){return Host_;}
+
+    string Host() { return Host_; }
+
     string dirBody();
-    bool isDir() const{return is_dir_;}
+
+    bool isDir() const { return is_dir_; }
+
 private:
 
     string method_;
@@ -27,7 +33,7 @@ private:
     string version_;
     string Host_;
     string content_type_;
-    map<string,string> dir_body_cache_;
+    map<string, string> dir_body_cache_;
     string response_body_;
 };
 
