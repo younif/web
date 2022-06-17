@@ -5,10 +5,10 @@
 #ifndef WEB_CONNECTION_H
 #define WEB_CONNECTION_H
 
-
-#include "Channel.h"
 #include "InetAddress.h"
 #include <queue>
+#include <thread>
+#include <sys/epoll.h>
 
 class Connection {
 public:
@@ -22,17 +22,21 @@ public:
 
     void handleClose();
 
+    void handleEvent(uint32_t events);
 private:
     int fd_;
+    int epoll_fd_;
+    epoll_event event_;
     InetAddress peerAddr_;
-    Channel *channel_;
 
-    string rcv_buf_;
-    string::size_type rcv_index_;
 
-    queue<string> request_;
-    string snd_buf_;
-    string::size_type snd_index_;
+
+    std::string rcv_buf_;
+    std::string::size_type rcv_index_;
+
+    std::queue<std::string> request_;
+    std::string snd_buf_;
+    std::string::size_type snd_index_;
 };
 
 

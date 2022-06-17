@@ -3,7 +3,7 @@
 //
 
 #include "HttpData.h"
-#include "Logger.h"
+
 #include "config.h"
 #include <filesystem>
 

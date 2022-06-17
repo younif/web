@@ -7,7 +7,9 @@
 
 
 class Socket {
-    int create_listen_socket(int port);
+public:
+    static int create_listen_socket(int port) ;
+    static int accept_socket(int listen_socket);
 };
 
 
