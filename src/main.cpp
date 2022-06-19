@@ -1,14 +1,9 @@
 //
-// Created by read on 2021/10/7.
+// Created by youni on 2022/6/19.
 //
-#include "Server.h"
-#include "spdlog/spdlog.h"
+#include "config.h"
 
+int main(int argc, char** argv){
+    
 
-using namespace std;
-
-int main(int argc, char** argv) {
-    spdlog::set_level(spdlog::level::debug);
-    Server server("my_server", 8888,"",1,"");
-    server.run();
 }

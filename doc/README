@@ -1,0 +1,9 @@
+使用clang的线程安全分析工具（Thread Safety Analysis.pdf）
+切换系统默认编译器
+sudo update-alternatives --config c++
+sudo update-alternatives --config cc
+
+EventLoop类
+reactor模式实现，收集、分发、执行事件
+
+

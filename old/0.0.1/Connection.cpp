@@ -7,9 +7,6 @@
 #include "HttpData.h"
 #include "spdlog/spdlog.h"
 
-
-
-
 Connection::Connection(int fd, int epoll_fd)
         : fd_(fd), rcv_index_(0), snd_index_(0),epoll_fd_(epoll_fd) {
     getpeername(fd, peerAddr_.addr(), peerAddr_.size());
