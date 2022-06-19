@@ -1,4 +1,4 @@
-# A C++20 HTTP Server
+# A C++ HTTP Server
 
 ## 本仓库目的
 
