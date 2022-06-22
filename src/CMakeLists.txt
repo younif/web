@@ -4,10 +4,12 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(SRC
         main.cpp
-        mutex.h
+        Mutex.h
         EventLoop.cpp
         Poller.cpp
-        Channel.cpp)
+        Channel.cpp
+        noncopyable.h
+        )
 
 add_executable(server ${SRC})
 target_link_libraries(server spdlog)
