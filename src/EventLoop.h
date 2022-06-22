@@ -5,9 +5,17 @@
 #ifndef WEBSERVER_EVENTLOOP_H
 #define WEBSERVER_EVENTLOOP_H
 
+#include <memory>
+
+class Poller;
 
 class EventLoop {
-
+public:
+    EventLoop();
+    ~EventLoop();
+    void loop();
+private:
+    std::unique_ptr<Poller> poller_;
 };
 
 

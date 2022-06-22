@@ -5,7 +5,4 @@
     sudo update-alternatives --config c++
     sudo update-alternatives --config cc
 
-EventLoop类
-reactor模式实现，收集、分发、执行事件
-
 
