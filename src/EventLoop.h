@@ -20,7 +20,7 @@ public:
     EventLoop();
     ~EventLoop();
     void start();  //需在本线程调用
-    void stop();   //线程安全函数
+    void stop();   //线程安全
 
     //更新订阅
     void updateChannel(Channel* c);

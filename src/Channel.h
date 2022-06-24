@@ -13,7 +13,7 @@ class EventLoop;
 class Channel {
     typedef std::function<void ()> EventCallback;
 public:
-    explicit Channel(EventLoop& loop);
+    explicit Channel(EventLoop &loop, int fd);
     ~Channel();
     void handleEvent();
     [[nodiscard]] uint32_t getEvent() const{return event_;}

@@ -21,7 +21,7 @@ EventLoop::EventLoop()
     ,request_stop_(false)
 {
     if(t_eventLoop != nullptr){
-        SPDLOG_CRITICAL("EventLoop::EventLoop() - already have a start in this thread!");
+        SPDLOG_CRITICAL("EventLoop::EventLoop() - already have a EventLoop in this thread!");
         std::exit(-1);
     }else{
         t_eventLoop = this;
@@ -36,6 +36,7 @@ void EventLoop::start() {
     looping_ = true;
     request_stop_ = false;
     while(!request_stop_){
+        activeChannelList_.clear();
         poller_->poll(Duration (-1),activeChannelList_);
         for(auto c :activeChannelList_){
             c->handleEvent();

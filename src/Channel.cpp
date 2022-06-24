@@ -15,13 +15,13 @@ void Channel::handleEvent() {
 //    if(event_ & EPOLLERR) SPDLOG_ERROR("EPOLLERR");
 //    if(event_ & EPOLLHUP) SPDLOG_ERROR("EPOLLHUP");
 //    SPDLOG_ERROR("^^^^^^^^^^^^^^^^^^");
-    if (event_ & (EPOLLHUP | EPOLLRDHUP | EPOLLERR)) {
+    if (r_event_ & (EPOLLHUP | EPOLLRDHUP | EPOLLERR)) {
         errorCallback_();
     }
-    if (event_ & (EPOLLIN | EPOLLPRI)) {
+    if (r_event_ & (EPOLLIN | EPOLLPRI)) {
         readCallback_();
     }
-    if (event_ & EPOLLOUT) {
+    if (r_event_ & EPOLLOUT) {
         writeCallback_();
     }
 }
@@ -30,8 +30,9 @@ void Channel::update() {
     loop_.updateChannel(this);
 }
 
-Channel::Channel(EventLoop &loop)
+Channel::Channel(EventLoop &loop, int fd)
     :loop_(loop)
+    ,fd_(fd)
 {
 
 }

@@ -6,6 +6,7 @@ set(SRC
         main.cpp
         Mutex.h
         EventLoop.cpp
+        EventLoopThread.cpp
         Poller.cpp
         Channel.cpp
         noncopyable.h
