@@ -20,13 +20,13 @@ Poller::~Poller() {
 }
 
 std::chrono::system_clock::time_point
-Poller::poll(Duration duration, std::vector<Channel *> &channelList) {
+Poller::poll(Duration duration, std::vector<std::unique_ptr<Channel>*> &channelList) {
     auto event_num = epoll_wait(epoll_fd_,eventList_.data(),static_cast<int>(eventList_.size()),static_cast<int>(duration.count()));
     auto ret = std::chrono::system_clock::now();
     if(event_num > 0){
         for (int i = 0; i < event_num; ++i) {
-            auto* c = static_cast<Channel *>(eventList_[i].data.ptr);
-            c->setRevent(eventList_[i].events);
+            auto c = static_cast<std::unique_ptr<Channel>*>(eventList_[i].data.ptr);
+            c->get()->setRevent(eventList_[i].events);
             channelList.push_back(c);
         }
         if(event_num == eventList_.size()){
@@ -57,7 +57,8 @@ void Poller::del(Channel *c) {
 }
 
 void Poller::channelToEpollEvent(Channel *c, epoll_event *e) {
-    e->data.ptr = c;
+    std::unique_ptr<Channel> cc;
+    e->data.ptr = &cc;
     e->events = c->getEvent();
 }
 

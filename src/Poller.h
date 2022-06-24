@@ -12,6 +12,7 @@
 
 #include <chrono>
 #include <vector>
+#include <memory>
 #include <sys/epoll.h>
 #include "noncopyable.h"
 
@@ -25,7 +26,7 @@ class Poller:noncopyable {
 public:
     Poller();
     ~Poller();
-    Timepoint poll(Duration duration, std::vector<Channel *> &channelList);
+    Timepoint poll(Duration duration, std::vector<std::unique_ptr<Channel>*> &channelList);
     void add(Channel* c);
     void mod(Channel* c);
     void del(Channel* c);

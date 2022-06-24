@@ -34,8 +34,8 @@ private:
     void abortNotInLoopThread();
 
     std::unique_ptr<Poller> poller_;
-    std::vector<Channel*> ChannelList_;
-    std::vector<Channel*> activeChannelList_;
+    std::vector<std::unique_ptr<Channel>> ChannelList_;
+    std::vector<std::unique_ptr<Channel>*> activeChannelList_; // we can't save ref in epoll.data.ptr
 
     pid_t tid_;
     bool looping_;

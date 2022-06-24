@@ -12,6 +12,7 @@
 class EventLoop;
 
 class EventLoopThread {
+public:
     EventLoopThread();
     std::unique_ptr<EventLoop> start();
 private:

@@ -39,7 +39,7 @@ void EventLoop::start() {
         activeChannelList_.clear();
         poller_->poll(Duration (-1),activeChannelList_);
         for(auto c :activeChannelList_){
-            c->handleEvent();
+            c->get()->handleEvent();
         }
     }
 }
