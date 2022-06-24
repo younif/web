@@ -1,9 +1,7 @@
 # A C++ HTTP Server
 
 ## feature
-- 学习异步多线程框架与HTTP协议
-- 在性能与代码复杂度中，选择复杂度降低
-- 采用function/bind而不是虚函数作为接口
+- 采用function/bind代替虚函数作为接口
 - 使用epoll的Reactor多线程框架
 
 ## 整体结构
