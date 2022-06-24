@@ -22,9 +22,10 @@ public:
     void start();  //需在本线程调用
     void stop();   //线程安全
 
-    //更新订阅
-    void updateChannel(Channel* c);
-    void removeChannel(Channel* c);
+    void addChannel(const Channel &c);
+    void updateChannel(const Channel &c);
+    void removeChannel(const Channel &c);
+
     //线程安全设施
     void assertInLoopThread();
     bool isInLoopThread() const;
@@ -33,9 +34,9 @@ public:
 private:
     void abortNotInLoopThread();
 
+
     std::unique_ptr<Poller> poller_;
-    std::vector<std::unique_ptr<Channel>> ChannelList_;
-    std::vector<std::unique_ptr<Channel>*> activeChannelList_; // we can't save ref in epoll.data.ptr
+    std::vector<Channel*> activeChannelList_; // we can't save ref in epoll.data.ptr
 
     pid_t tid_;
     bool looping_;

@@ -6,6 +6,7 @@
 #define WEBSERVER_ACCEPTOR_H
 
 #include "noncopyable.h"
+#include "Callbacks.h"
 #include <memory>
 class EventLoop;
 class Channel;
@@ -15,8 +16,10 @@ public:
     Acceptor(EventLoop& loop, int port);
     ~Acceptor();
 
-    void listen();
+    void start();
     bool isListening();
+
+    void setNewConnectionCallback(const NewConnectionCallback& cb){ newConnectionCallback_ = cb;}
 
 private:
     void handleRead();
@@ -25,6 +28,7 @@ private:
     bool isListening_;
     int listen_fd_;
     std::unique_ptr<Channel> listenChannel_;
+    NewConnectionCallback newConnectionCallback_;
 };
 
 

@@ -3,7 +3,7 @@
 //
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 
-#include "../EventLoop.h"
+#include "EventLoop.h"
 #include "spdlog/spdlog.h"
 #include <memory>
 #include <thread>

@@ -7,6 +7,7 @@
 #include "Acceptor.h"
 #include "SocketOps.h"
 #include "Channel.h"
+#include "EventLoop.h"
 
 Acceptor::Acceptor(EventLoop &loop, int port)
     :loop_(loop)
@@ -14,6 +15,7 @@ Acceptor::Acceptor(EventLoop &loop, int port)
     ,isListening_(false)
     ,listenChannel_(std::make_unique<Channel>(loop,listen_fd_))
 {
+    listenChannel_->setReadCallback([this]{this->handleRead();});
 
 }
 
@@ -21,7 +23,7 @@ Acceptor::~Acceptor() {
     close(listen_fd_);
 }
 
-void Acceptor::listen() {
+void Acceptor::start() {
     assert(!isListening_);
     isListening_ = true;
     listenChannel_->enableReading();
