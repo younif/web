@@ -28,10 +28,15 @@ int main(){
 
 
     //test for not run loop in another thread
-    std::unique_ptr<EventLoop> p;
-    std::thread thread([&](){ ThreadFuc(p);});
-    while(!p);
-    p->assertInLoopThread(); //terminate for not in the thread.
-    thread.join();
+//    std::unique_ptr<EventLoop> p;
+//    std::thread thread([&](){ ThreadFuc(p);});
+//    while(!p);
+//    p->assertInLoopThread(); //terminate for not in the thread.
+//    thread.join();
+
+    // test for getEventLoopOfCurrentThread
+    assert(EventLoop::getEventLoopOfCurrentThread() == nullptr);
+    EventLoop loop2;
+    assert(EventLoop::getEventLoopOfCurrentThread() == &loop2);
 
 }
