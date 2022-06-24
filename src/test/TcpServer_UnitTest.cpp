@@ -2,30 +2,43 @@
 // Created by youni on 2022/6/24.
 //
 
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+
 #include "TcpServer.h"
 #include "EventLoop.h"
 #include "TcpConnection.h"
+#include "spdlog/spdlog.h"
 
-void onConnection(std::shared_ptr<TcpConnection>& con){
+void onConnection(const std::shared_ptr<TcpConnection> &con) {
+    SPDLOG_INFO("onConnection");
     con->send("onConnection\n");
     con->enableReading();
 }
 
-void onRead(std::shared_ptr<TcpConnection>& con){
+void onRead(const std::shared_ptr<TcpConnection> &con) {
+    SPDLOG_INFO("onRead");
+    std::string message;
+    message.resize(100);
+    con->read(message);
+    SPDLOG_INFO("read:" + message);
     con->send("onRead\n");
     con->disableReading();
     con->enableWriting();
 }
 
-void onWrite(std::shared_ptr<TcpConnection>& con){
+void onWrite(const std::shared_ptr<TcpConnection> &con) {
+    SPDLOG_INFO("onWrite");
     con->send("onWrite\n");
     con->disableWriting();
     con->shutdown();
 }
 
-int main(){
+int main() {
+    spdlog::set_level(spdlog::level::trace);
+    SPDLOG_TRACE("TcpServer_UnitTest start");
+
     EventLoop loop;
-    TcpServer server(loop,8800,0);
+    TcpServer server(loop, 8800, 1, std::string());
 
     server.setConnectionCallback(onConnection);
     server.setReadCallback(onRead);
@@ -34,3 +47,6 @@ int main(){
     server.start();
     loop.start();
 }
+/**
+*  tcp客户端：telnet ip port
+*/

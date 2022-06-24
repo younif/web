@@ -2,15 +2,16 @@
 // Created by youni on 2022/6/19.
 //
 
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+#include "spdlog/spdlog.h"
 
 #include "EventLoop.h"
 #include "Poller.h"
-#include "spdlog/spdlog.h"
 #include "Channel.h"
 #include <memory>
 #include <thread>
 #include <sstream>
+#include "spdlog/spdlog.h"
+
 
 thread_local EventLoop* t_eventLoop = nullptr;
 
@@ -26,6 +27,7 @@ EventLoop::EventLoop()
     }else{
         t_eventLoop = this;
     }
+    SPDLOG_INFO("EventLoop Created");
 }
 EventLoop::~EventLoop() {
 
@@ -38,6 +40,7 @@ void EventLoop::start() {
     while(!request_stop_){
         activeChannelList_.clear();
         poller_->poll(Duration (-1),activeChannelList_);
+        SPDLOG_INFO("get event nums:" + std::to_string(activeChannelList_.size()));
         for(auto c :activeChannelList_){
             c->handleEvent();
         }

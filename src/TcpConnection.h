@@ -7,11 +7,12 @@
 
 #include <string>
 #include <memory>
+#include "Callbacks.h"
 
 class Channel;
 class EventLoop;
 
-class TcpConnection {
+class TcpConnection:std::enable_shared_from_this<TcpConnection> {
 public:
     TcpConnection(EventLoop& loop, int fd);
     ~TcpConnection();
@@ -27,8 +28,13 @@ public:
 
     void shutdown();
     void send(const std::string& message);
+    void read(std::string& message);
 private:
+
+    void onRead();
+    void onWrite();
     EventLoop& loop_;
+    int fd_;
     std::unique_ptr<Channel> channel_;
 
     ReadCallback readCallback_;

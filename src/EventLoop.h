@@ -19,8 +19,8 @@ class EventLoop:noncopyable {
 public:
     EventLoop();
     ~EventLoop();
-    void start();  //需在本线程调用
-    void stop();   //线程安全
+    void start();  //not thread safe
+    void stop();   //Thread safe
 
     void addChannel(const Channel &c);
     void updateChannel(const Channel &c);
