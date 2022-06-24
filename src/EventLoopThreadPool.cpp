@@ -6,12 +6,16 @@
 #include "EventLoopThread.h"
 #include "EventLoop.h"
 
-EventLoopThreadPool::EventLoopThreadPool(EventLoop &loop, int threadNum,
-                                         std::function<void(std::unique_ptr<EventLoop> &)>)
-        :loop_(loop)
+EventLoopThreadPool::EventLoopThreadPool(EventLoop &loop, int threadNum)
+        : loop_(loop)
+        , cnt(0)
                                          {
     for (int i = 0; i < threadNum; ++i) {
         EventLoopThread et;
         threadPool_.push_back(et.start());
     }
+}
+
+EventLoop& EventLoopThreadPool::getNextLoop() {
+    return *threadPool_[(cnt++) % threadNum_];
 }

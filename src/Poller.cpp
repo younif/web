@@ -20,13 +20,13 @@ Poller::~Poller() {
 }
 
 std::chrono::system_clock::time_point
-Poller::poll(Duration duration, std::vector<std::unique_ptr<Channel>*> &channelList) {
+Poller::poll(Duration duration, std::vector<Channel*> &channelList) {
     auto event_num = epoll_wait(epoll_fd_,eventList_.data(),static_cast<int>(eventList_.size()),static_cast<int>(duration.count()));
     auto ret = std::chrono::system_clock::now();
     if(event_num > 0){
         for (int i = 0; i < event_num; ++i) {
-            auto c = static_cast<std::unique_ptr<Channel>*>(eventList_[i].data.ptr);
-            c->get()->setRevent(eventList_[i].events);
+            auto c = static_cast<Channel*>(eventList_[i].data.ptr);
+            c->setRevent(eventList_[i].events);
             channelList.push_back(c);
         }
         if(event_num == eventList_.size()){
@@ -40,25 +40,25 @@ Poller::poll(Duration duration, std::vector<std::unique_ptr<Channel>*> &channelL
     return ret;
 }
 
-void Poller::add(Channel *c) {
+void Poller::add(const Channel &c) {
     epoll_event e{};
     channelToEpollEvent(c,&e);
-    epoll_ctl(epoll_fd_,EPOLL_CTL_ADD,c->getFd(),&e);
+    epoll_ctl(epoll_fd_,EPOLL_CTL_ADD,c.getFd(),&e);
 }
 
-void Poller::mod(Channel *c) {
+void Poller::mod(const Channel &c) {
     epoll_event e{};
     channelToEpollEvent(c,&e);
-    epoll_ctl(epoll_fd_,EPOLL_CTL_MOD,c->getFd(),&e);
+    epoll_ctl(epoll_fd_,EPOLL_CTL_MOD,c.getFd(),&e);
 }
 
-void Poller::del(Channel *c) {
-    epoll_ctl(epoll_fd_,EPOLL_CTL_DEL,c->getFd(), nullptr);
+void Poller::del(const Channel &c) {
+    epoll_ctl(epoll_fd_,EPOLL_CTL_DEL,c.getFd(), nullptr);
 }
 
-void Poller::channelToEpollEvent(Channel *c, epoll_event *e) {
+void Poller::channelToEpollEvent(const Channel &c, epoll_event *e) {
     std::unique_ptr<Channel> cc;
     e->data.ptr = &cc;
-    e->events = c->getEvent();
+    e->events = c.getEvent();
 }
 

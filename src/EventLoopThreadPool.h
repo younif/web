@@ -13,10 +13,12 @@ class EventLoop;
 
 class EventLoopThreadPool {
 public:
-    EventLoopThreadPool(EventLoop& loop, int threadNum, std::function<void(std::unique_ptr<EventLoop>& loop)>);
-
+    EventLoopThreadPool(EventLoop& loop, int threadNum);
+    EventLoop& getNextLoop();
 
 private:
+    int cnt;
+    int threadNum_;
     EventLoop& loop_;
     std::vector<std::unique_ptr<EventLoop>> threadPool_;
 };

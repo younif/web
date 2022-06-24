@@ -26,12 +26,12 @@ class Poller:noncopyable {
 public:
     Poller();
     ~Poller();
-    Timepoint poll(Duration duration, std::vector<std::unique_ptr<Channel>*> &channelList);
-    void add(Channel* c);
-    void mod(Channel* c);
-    void del(Channel* c);
+    Timepoint poll(Duration duration, std::vector<Channel*> &channelList);
+    void add(const Channel &c);
+    void mod(const Channel &c);
+    void del(const Channel &c);
 private:
-    void channelToEpollEvent(Channel* c, epoll_event* e);
+    static void channelToEpollEvent(const Channel &c, epoll_event* e);
     int epoll_fd_;
     std::vector<epoll_event> eventList_;
 };

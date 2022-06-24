@@ -27,18 +27,18 @@ void Channel::handleEvent() {
 }
 
 void Channel::update() {
-    loop_.updateChannel(this);
+    loop_.updateChannel(*this);
 }
 
 Channel::Channel(EventLoop &loop, int fd)
     :loop_(loop)
     ,fd_(fd)
 {
-
+    loop_.addChannel(*this);
 }
 
 Channel::~Channel() {
-    loop_.removeChannel(this);
+    loop_.removeChannel(*this);
 }
 
 

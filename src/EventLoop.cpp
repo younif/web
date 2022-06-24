@@ -39,7 +39,7 @@ void EventLoop::start() {
         activeChannelList_.clear();
         poller_->poll(Duration (-1),activeChannelList_);
         for(auto c :activeChannelList_){
-            c->get()->handleEvent();
+            c->handleEvent();
         }
     }
 }
@@ -68,12 +68,16 @@ EventLoop *EventLoop::getEventLoopOfCurrentThread() {
     return t_eventLoop;
 }
 
-void EventLoop::updateChannel(Channel *c) {
+void EventLoop::updateChannel(const Channel &c) {
     poller_->mod(c);
 }
 
-void EventLoop::removeChannel(Channel *c) {
+void EventLoop::removeChannel(const Channel &c) {
     poller_->del(c);
+}
+
+void EventLoop::addChannel(const Channel &c) {
+    poller_->add(c);
 }
 
 
