@@ -5,10 +5,12 @@
 #include "EventLoopThreadPool.h"
 #include "EventLoopThread.h"
 #include "EventLoop.h"
+#include "spdlog/spdlog.h"
 
 EventLoopThreadPool::EventLoopThreadPool(EventLoop &loop, int threadNum)
         : loop_(loop)
         , cnt(0)
+        ,threadNum_(threadNum)
                                          {
     for (int i = 0; i < threadNum; ++i) {
         EventLoopThread et;
@@ -16,6 +18,8 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop &loop, int threadNum)
     }
 }
 
-EventLoop& EventLoopThreadPool::getNextLoop() {
-    return *threadPool_[(cnt++) % threadNum_];
+std::unique_ptr<EventLoop>& EventLoopThreadPool::getNextLoop() {
+    cnt = ((cnt++) % threadNum_);
+    SPDLOG_INFO(std::to_string(cnt));
+    return threadPool_[cnt];
 }

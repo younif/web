@@ -8,15 +8,16 @@
 #include <string>
 #include <memory>
 #include "Callbacks.h"
+#include "noncopyable.h"
 
 class Channel;
 class EventLoop;
 
-class TcpConnection:std::enable_shared_from_this<TcpConnection> {
+class TcpConnection:noncopyable, public std::enable_shared_from_this<TcpConnection> {
 public:
     TcpConnection(EventLoop& loop, int fd);
     ~TcpConnection();
-    std::string name();
+    static std::string name();
 
     void enableReading();
     void disableReading();
@@ -28,9 +29,10 @@ public:
 
     void shutdown();
     void send(const std::string& message);
-    void read(std::string& message);
-private:
+    void read(std::string& message) const;
 
+    std::shared_ptr<TcpConnection> test() {return shared_from_this();}
+private:
     void onRead();
     void onWrite();
     EventLoop& loop_;

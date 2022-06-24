@@ -4,10 +4,12 @@
 
 #include <cassert>
 #include <unistd.h>
+#include <sys/socket.h>
 #include "Acceptor.h"
 #include "SocketOps.h"
 #include "Channel.h"
 #include "EventLoop.h"
+#include "spdlog/spdlog.h"
 
 Acceptor::Acceptor(EventLoop &loop, int port)
     :loop_(loop)
@@ -16,7 +18,7 @@ Acceptor::Acceptor(EventLoop &loop, int port)
     ,listenChannel_(std::make_unique<Channel>(loop,listen_fd_))
 {
     listenChannel_->setReadCallback([this]{this->handleRead();});
-
+    SPDLOG_INFO("acceptor created fd:" + std::to_string(listen_fd_));
 }
 
 Acceptor::~Acceptor() {
@@ -30,7 +32,8 @@ void Acceptor::start() {
 }
 
 void Acceptor::handleRead() {
-
+    int fd = ::accept4(listen_fd_, nullptr, nullptr,0);
+    newConnectionCallback_(fd);
 }
 
 bool Acceptor::isListening() {

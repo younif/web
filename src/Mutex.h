@@ -113,32 +113,35 @@ public:
     void AssertReaderHeld() ASSERT_SHARED_CAPABILITY(this);
 
     // For negative capabilities.
-    const Mutex& operator!() const { return *this; }
+    const Mutex &operator!() const { return *this; }
 };
 
 // Tag types for selecting a constructor.
-struct adopt_lock_t {} inline constexpr adopt_lock = {};
-struct defer_lock_t {} inline constexpr defer_lock = {};
-struct shared_lock_t {} inline constexpr shared_lock = {};
+struct adopt_lock_t {
+} inline constexpr adopt_lock = {};
+struct defer_lock_t {
+} inline constexpr defer_lock = {};
+struct shared_lock_t {
+} inline constexpr shared_lock = {};
 
 // MutexLocker is an RAII class that acquires a mutex in its constructor, and
 // releases it in its destructor.
 class SCOPED_CAPABILITY MutexLocker {
 private:
-    Mutex* mut;
+    Mutex *mut;
     bool locked;
 
 public:
     // Acquire mu, implicitly acquire *this and associate it with mu.
-    MutexLocker(Mutex *mu) ACQUIRE(mu) : mut(mu), locked(true) {
+    MutexLocker(Mutex *mu) ACQUIRE(mu): mut(mu), locked(true) {
         mu->Lock();
     }
 
     // Assume mu is held, implicitly acquire *this and associate it with mu.
-    MutexLocker(Mutex *mu, adopt_lock_t) REQUIRES(mu) : mut(mu), locked(true) {}
+    MutexLocker(Mutex *mu, adopt_lock_t) REQUIRES(mu): mut(mu), locked(true) {}
 
     // Acquire mu in shared mode, implicitly acquire *this and associate it with mu.
-    MutexLocker(Mutex *mu, shared_lock_t) ACQUIRE_SHARED(mu) : mut(mu), locked(true) {
+    MutexLocker(Mutex *mu, shared_lock_t) ACQUIRE_SHARED(mu): mut(mu), locked(true) {
         mu->ReaderLock();
     }
 
@@ -147,7 +150,7 @@ public:
             : mut(mu), locked(true) {}
 
     // Assume mu is not held, implicitly acquire *this and associate it with mu.
-    MutexLocker(Mutex *mu, defer_lock_t) EXCLUDES(mu) : mut(mu), locked(false) {}
+    MutexLocker(Mutex *mu, defer_lock_t) EXCLUDES(mu): mut(mu), locked(false) {}
 
     // Release *this and all associated mutexes, if they are still held.
     // There is no warning if the scope was already unlocked before.

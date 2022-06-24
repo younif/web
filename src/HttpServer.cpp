@@ -3,9 +3,10 @@
 //
 
 #include "HttpServer.h"
+#include "TcpServer.h"
 
 HttpServer::HttpServer(EventLoop& loop, int port, std::filesystem::path path, int threadNum)
-    :tcpServer_(std::make_unique<TcpServer>(loop, port, threadNum))
+    :tcpServer_(std::make_unique<TcpServer>(loop, port, threadNum,"http"))
 {
 
 }

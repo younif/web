@@ -6,9 +6,12 @@
 #define WEBSERVER_SOCKETOPS_H
 
 
+#include <cstdint>
+
 class SocketOps {
 public:
     static int createListenSocket(int port);
+    static void printEvent(uint32_t event);
 };
 
 

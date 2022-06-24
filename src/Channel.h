@@ -7,11 +7,12 @@
 
 #include <sys/epoll.h>
 #include <functional>
+#include "Callbacks.h"
 
 class EventLoop;
 
 class Channel {
-    typedef std::function<void ()> EventCallback;
+
 public:
     explicit Channel(EventLoop &loop, int fd);
     ~Channel();
@@ -19,23 +20,25 @@ public:
     [[nodiscard]] uint32_t getEvent() const{return event_;}
     [[nodiscard]] int getFd() const {return fd_;}
     void setRevent(uint32_t event){ r_event_ = event;}
-    void setReadCallback(const EventCallback& cb){readCallback_ = cb;}
-    void setWriteCallback(const EventCallback& cb){writeCallback_ = cb;}
-    void setErrorCallback(const EventCallback& cb){errorCallback_ = cb;}
+    void setReadCallback(const ChannelEventCallback &cb){readCallback_ = cb;}
+    void setWriteCallback(const ChannelEventCallback &cb){writeCallback_ = cb;}
+    void setErrorCallback(const ChannelEventCallback &cb){errorCallback_ = cb;}
     void enableReading(){ event_ |= EPOLLIN; update();}
     void disableReading(){ event_ &= ~EPOLLIN; update();}
     void enableWriting(){ event_ |= EPOLLOUT; update();}
     void disableWriting(){ event_ &= ~EPOLLOUT; update();}
 
 private:
+    static ChannelEventCallback DEFAULT_CALLBACK;
     void update();
+    void defaultCallback(){};
     EventLoop& loop_;
     int fd_;
     uint32_t event_;
     uint32_t r_event_;
-    EventCallback readCallback_;
-    EventCallback writeCallback_;
-    EventCallback errorCallback_;
+    ChannelEventCallback readCallback_;
+    ChannelEventCallback writeCallback_;
+    ChannelEventCallback errorCallback_;
 };
 
 

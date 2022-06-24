@@ -9,6 +9,7 @@
 
 EventLoopThread::EventLoopThread()
     :started_(false)
+    ,loop_(nullptr)
 {
 
 }
@@ -27,9 +28,6 @@ std::unique_ptr<EventLoop> EventLoopThread::start() {
 
 void EventLoopThread::startFunc() {
     loop_ = new EventLoop();
-    {
-        std::unique_lock<std::mutex> lock(mutex_);
-        con_.notify_one();
-    }
+    con_.notify_one();
     loop_->start();
 }

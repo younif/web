@@ -14,7 +14,7 @@ class EventLoop;
 class EventLoopThreadPool {
 public:
     EventLoopThreadPool(EventLoop& loop, int threadNum);
-    EventLoop& getNextLoop();
+    std::unique_ptr<EventLoop>& getNextLoop();
 
 private:
     int cnt;

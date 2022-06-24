@@ -6,15 +6,9 @@
 #include "EventLoop.h"
 #include <spdlog/spdlog.h>
 
+ChannelEventCallback Channel::DEFAULT_CALLBACK = {[]{}};
+
 void Channel::handleEvent() {
-//    SPDLOG_ERROR("------------------");
-//    if(event_ & EPOLLIN) SPDLOG_ERROR("EPOLLIN");
-//    if(event_ & EPOLLPRI) SPDLOG_ERROR("EPOLLPRI");
-//    if(event_ & EPOLLRDHUP) SPDLOG_ERROR("EPOLLRDHUP");
-//    if(event_ & EPOLLOUT) SPDLOG_ERROR("EPOLLOUT");
-//    if(event_ & EPOLLERR) SPDLOG_ERROR("EPOLLERR");
-//    if(event_ & EPOLLHUP) SPDLOG_ERROR("EPOLLHUP");
-//    SPDLOG_ERROR("^^^^^^^^^^^^^^^^^^");
     if (r_event_ & (EPOLLHUP | EPOLLRDHUP | EPOLLERR)) {
         errorCallback_();
     }
@@ -33,6 +27,11 @@ void Channel::update() {
 Channel::Channel(EventLoop &loop, int fd)
     :loop_(loop)
     ,fd_(fd)
+    ,readCallback_(DEFAULT_CALLBACK)
+    ,writeCallback_(DEFAULT_CALLBACK)
+    ,errorCallback_(DEFAULT_CALLBACK)
+    ,event_(0)
+    ,r_event_(0)
 {
     loop_.addChannel(*this);
 }

@@ -1,6 +1,6 @@
 include_directories(../)
 
-add_executable(Poller_UnitTest Poller_UnitTest.cpp )
+add_executable(Poller_UnitTest Poller_UnitTest.cpp)
 target_link_libraries(Poller_UnitTest server)
 
 add_executable(EventLoop_UnitTest EventLoop_UnitTest.cpp)

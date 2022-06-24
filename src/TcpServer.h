@@ -18,7 +18,7 @@ class TcpConnection;
 class TcpServer {
 
 public:
-    TcpServer(EventLoop& loop,int port, int threadNum);
+    TcpServer(EventLoop &loop, int port, int threadNum, std::string name);
     ~TcpServer();
     void start();
 
@@ -29,6 +29,7 @@ private:
     void onNewConnection(int fd);
 
     EventLoop& loop_;
+    const std::string name_;
     std::unique_ptr<Acceptor> acceptor_;
     std::shared_ptr<EventLoopThreadPool> threadPool_;
 

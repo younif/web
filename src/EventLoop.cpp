@@ -40,7 +40,6 @@ void EventLoop::start() {
     while(!request_stop_){
         activeChannelList_.clear();
         poller_->poll(Duration (-1),activeChannelList_);
-        SPDLOG_INFO("get event nums:" + std::to_string(activeChannelList_.size()));
         for(auto c :activeChannelList_){
             c->handleEvent();
         }

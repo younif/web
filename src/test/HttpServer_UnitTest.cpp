@@ -4,9 +4,9 @@
 #include "HttpServer.h"
 #include "EventLoop.h"
 
-int main(){
+int main() {
     EventLoop loop;
-    HttpServer httpServer(loop,8080,std::filesystem::path(),2);
+    HttpServer httpServer(loop, 8080, std::filesystem::path(), 2);
     httpServer.start();
     loop.start();
 }

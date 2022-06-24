@@ -11,12 +11,12 @@
 #include <unistd.h>
 
 
-void ThreadFuc(std::unique_ptr<EventLoop>& p){
+void ThreadFuc(std::unique_ptr<EventLoop> &p) {
     p = std::make_unique<EventLoop>();
     p->start();
 }
 
-int main(){
+int main() {
     spdlog::set_level(spdlog::level::trace);
     SPDLOG_TRACE("main() pid:" + std::to_string(getpid()) + " tid:" + std::to_string(gettid()));
 

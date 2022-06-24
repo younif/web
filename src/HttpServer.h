@@ -5,9 +5,12 @@
 #ifndef WEBSERVER_HTTPSERVER_H
 #define WEBSERVER_HTTPSERVER_H
 
-#include "TcpServer.h"
+
 #include <memory>
 #include <filesystem>
+
+class TcpServer;
+class EventLoop;
 
 class HttpServer {
 public:

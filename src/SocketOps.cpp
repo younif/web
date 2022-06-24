@@ -5,6 +5,7 @@
 #include "SocketOps.h"
 #include "spdlog/spdlog.h"
 #include <sys/socket.h>
+#include <sys/epoll.h>
 #include <netinet/in.h>
 
 int SocketOps::createListenSocket(int port) {
@@ -36,4 +37,15 @@ int SocketOps::createListenSocket(int port) {
         SPDLOG_CRITICAL("listen()");
 
     return (sock);
+}
+
+void SocketOps::printEvent(uint32_t event) {
+    SPDLOG_INFO("----printEvent------");
+    if(event & EPOLLIN) SPDLOG_INFO("EPOLLIN");
+    if(event & EPOLLPRI) SPDLOG_INFO("EPOLLPRI");
+    if(event & EPOLLRDHUP) SPDLOG_INFO("EPOLLRDHUP");
+    if(event & EPOLLOUT) SPDLOG_INFO("EPOLLOUT");
+    if(event & EPOLLERR) SPDLOG_INFO("EPOLLERR");
+    if(event & EPOLLHUP) SPDLOG_INFO("EPOLLHUP");
+    SPDLOG_INFO("^^^^printEvent^^^^^^");
 }
