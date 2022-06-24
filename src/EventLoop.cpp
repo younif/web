@@ -7,6 +7,7 @@
 #include "EventLoop.h"
 #include "Poller.h"
 #include "spdlog/spdlog.h"
+#include "Channel.h"
 #include <memory>
 #include <thread>
 #include <sstream>
@@ -35,7 +36,10 @@ void EventLoop::start() {
     looping_ = true;
     request_stop_ = false;
     while(!request_stop_){
-        //poller_->
+        poller_->poll(Duration (-1),activeChannelList_);
+        for(auto c :activeChannelList_){
+            c->handleEvent();
+        }
     }
 }
 void EventLoop::stop() {
@@ -61,6 +65,14 @@ bool EventLoop::isInLoopThread() const {
 
 EventLoop *EventLoop::getEventLoopOfCurrentThread() {
     return t_eventLoop;
+}
+
+void EventLoop::updateChannel(Channel *c) {
+    poller_->mod(c);
+}
+
+void EventLoop::removeChannel(Channel *c) {
+    poller_->del(c);
 }
 
 

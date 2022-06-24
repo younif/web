@@ -12,20 +12,27 @@
 
 #include <chrono>
 #include <vector>
+#include <sys/epoll.h>
 #include "noncopyable.h"
 
 class Channel;
 using Timepoint = std::chrono::system_clock::time_point;
-using Duration = std::chrono::system_clock::duration;
+using Duration = std::chrono::milliseconds;
+
 
 
 class Poller:noncopyable {
 public:
     Poller();
     ~Poller();
-    Timepoint poll(Duration duration, std::vector<Channel>& channelList);
+    Timepoint poll(Duration duration, std::vector<Channel *> &channelList);
+    void add(Channel* c);
+    void mod(Channel* c);
+    void del(Channel* c);
 private:
+    void channelToEpollEvent(Channel* c, epoll_event* e);
     int epoll_fd_;
+    std::vector<epoll_event> eventList_;
 };
 
 
