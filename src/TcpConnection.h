@@ -26,6 +26,7 @@ public:
 
     void setWriteCallback(const WriteCallback& cb){writeCallback_ = cb;};
     void setReadCallback(const ReadCallback& cb){readCallback_ = cb;};
+    void setCloseCallback(const CloseCallback& cb){close_callback_ = cb;}
 
     void shutdown();
     void send(const std::string& message);
@@ -41,6 +42,7 @@ private:
 
     ReadCallback readCallback_;
     WriteCallback writeCallback_;
+    CloseCallback close_callback_;
 };
 
 

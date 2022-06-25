@@ -34,5 +34,9 @@ void TcpServer::onNewConnection(int fd) {
     connections_[con->name()] = con;
     con->setReadCallback(readCallback_);
     con->setWriteCallback(writeCallback_);
+    con->setCloseCallback([&](const std::shared_ptr<TcpConnection>& con){ delConnection(con);});
     connectionCallback_(connections_[con->name()]);
+}
+void TcpServer::delConnection(const std::shared_ptr<TcpConnection>& con) {
+    connections_[con->name()].reset();
 }

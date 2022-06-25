@@ -28,8 +28,9 @@ void TcpConnection::disableWriting() {
 }
 
 void TcpConnection::shutdown() {
-    loop_.removeChannel(*channel_);
-    ::shutdown(fd_,SHUT_RDWR);
+  //delete shared_ptr in Tcpserver then cause ~TcpConnection()
+  auto ptr(shared_from_this());
+  close_callback_(ptr);
 }
 
 TcpConnection::TcpConnection(EventLoop &loop, int fd)
@@ -42,7 +43,7 @@ TcpConnection::TcpConnection(EventLoop &loop, int fd)
 }
 
 TcpConnection::~TcpConnection() {
-    shutdown();
+  ::close(fd_);
 }
 
 std::string TcpConnection::name() {

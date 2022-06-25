@@ -25,8 +25,10 @@ public:
     void setConnectionCallback(const ConnectionCallback& cb){connectionCallback_ = cb;};
     void setWriteCallback(const WriteCallback& cb){writeCallback_ = cb;};
     void setReadCallback(const ReadCallback& cb){readCallback_ = cb;};
+    void delConnection(const std::shared_ptr<TcpConnection>& con);
 private:
     void onNewConnection(int fd);
+
 
     EventLoop& loop_;
     const std::string name_;
