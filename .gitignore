@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# CLion
+.idea/
+compiledDependencies/
+cmake-build-*
+build-*
