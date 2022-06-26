@@ -11,24 +11,25 @@
 
 void onConnection(const std::shared_ptr<TcpConnection> &con) {
     SPDLOG_DEBUG("onConnection");
-    con->send("onConnection\n");
+    con->send("Hello world ! - onConnection()\n");
     con->enableReading();
+    con->send("We have enabled to read your message now !\nplease input your message:");
 }
 
 void onRead(const std::shared_ptr<TcpConnection> &con) {
-    SPDLOG_DEBUG("onRead");
+    SPDLOG_DEBUG("onRead()");
     std::string message;
     message.resize(100);
     con->read(message);
-    SPDLOG_DEBUG("read:" + message);
-    con->send("onRead\n");
+    SPDLOG_DEBUG("We received :" + message );
+    con->send("We received :" + message);
     con->disableReading();
     con->enableWriting();
 }
 
 void onWrite(const std::shared_ptr<TcpConnection> &con) {
-    SPDLOG_DEBUG("onWrite");
-    con->send("onWrite\n");
+    SPDLOG_DEBUG("onWrite()");
+    con->send("Goodbye ! We will Close connection now\n");
     con->disableWriting();
     con->shutdown();
 }

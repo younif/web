@@ -19,7 +19,5 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop &loop, int threadNum)
 }
 
 std::unique_ptr<EventLoop>& EventLoopThreadPool::getNextLoop() {
-    cnt = ((cnt++) % threadNum_);
-    SPDLOG_INFO(std::to_string(cnt));
-    return threadPool_[cnt];
+    return threadPool_[((cnt++) % threadNum_)];
 }

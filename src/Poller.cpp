@@ -55,7 +55,7 @@ void Poller::mod(const Channel &c) {
     SPDLOG_INFO("Poller::mod fd:" + std::to_string(c.getFd()));
     epoll_event e{};
     channelToEpollEvent(c,&e);
-    //SocketOps::printEvent(e.events);
+    SocketOps::printEvent(e.events);
     epoll_ctl(epoll_fd_,EPOLL_CTL_MOD,c.getFd(),&e);
 }
 
