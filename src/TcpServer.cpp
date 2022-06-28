@@ -9,7 +9,7 @@
 #include "TcpConnection.h"
 #include "spdlog/spdlog.h"
 
-TcpServer::TcpServer(EventLoop &loop, int port, int threadNum, std::string name)
+TcpServer::TcpServer(EventLoop &loop, int port, int threadNum, const std::string &name)
     : loop_(loop)
     , name_(name)
     , acceptor_(std::make_unique<Acceptor>(loop,port))

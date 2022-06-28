@@ -16,10 +16,12 @@ set(SRC
         SocketOps.cpp
         TcpServer.cpp
         TcpConnection.cpp
-        HttpServer.cpp
+        http/HttpServer.cpp
         )
 
-add_library(server ${SRC})
-target_link_libraries(server spdlog)
+add_library(CReactor ${SRC})
+target_link_libraries(CReactor spdlog)
 
 add_subdirectory(test)
+
+add_executable(main main.cpp)
