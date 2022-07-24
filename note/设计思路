@@ -12,6 +12,8 @@ TcpServer
     - TCP Keepalive设置
     - backlog设置
     - TCP 发送、接收缓冲大小
+    - 超时响应限制
+    - 最大连接数
     -
 
 EventLoop
