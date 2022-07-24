@@ -15,6 +15,7 @@ class EventLoop;
 class HttpServer {
 public:
     HttpServer(EventLoop& loop, int port, std::filesystem::path path, int threadNum);
+	~HttpServer();
     void start();
 private:
     std::unique_ptr<TcpServer> tcpServer_;

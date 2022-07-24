@@ -14,3 +14,6 @@ HttpServer::HttpServer(EventLoop& loop, int port, std::filesystem::path path, in
 void HttpServer::start() {
 
 }
+HttpServer::~HttpServer() {
+
+}

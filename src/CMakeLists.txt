@@ -17,6 +17,7 @@ set(SRC
         TcpServer.cpp
         TcpConnection.cpp
         http/HttpServer.cpp
+        http/http_parser.cpp
         )
 
 add_library(CReactor ${SRC})

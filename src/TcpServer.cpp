@@ -3,15 +3,17 @@
 //
 
 #include "TcpServer.h"
+
+#include <utility>
 #include "Acceptor.h"
 #include "EventLoopThreadPool.h"
 #include "EventLoop.h"
 #include "TcpConnection.h"
 #include "spdlog/spdlog.h"
 
-TcpServer::TcpServer(EventLoop &loop, int port, int threadNum, const std::string &name)
+TcpServer::TcpServer(EventLoop &loop, int port, int threadNum, std::string name)
     : loop_(loop)
-    , name_(name)
+    , name_(std::move(name))
     , acceptor_(std::make_unique<Acceptor>(loop,port))
     , threadPool_(std::make_shared<EventLoopThreadPool>(loop,threadNum))
 {
